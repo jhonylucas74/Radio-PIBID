@@ -18,6 +18,8 @@ app.controller("Stream",function($scope,$timeout){
   $scope.loading = false;
   $scope.stop = false;
 
+  $scope.volume = 50;
+
 
   document.getElementById("loading").style.display = 'none';
   document.getElementById("stop").style.display = 'none';
@@ -54,11 +56,20 @@ app.controller("Stream",function($scope,$timeout){
   var my_media = null;
   var mediaTimer = null;
 
-  
+  function setVolume(){
+    if (my_media != null) { 
+      my_media.setVolume($scope.volume / 100);
+    }    
+  }
+
+  $scope.changeVolume = function(){
+    setVolume();
+  }
 
   function playAudio(){
     my_media = new Media("http://50.22.218.101:11232/;", onSuccess, onError);
     my_media.play();
+    setVolume();
 
     if(mediaTimer == null){
       // Update media position every second
@@ -67,7 +78,7 @@ app.controller("Stream",function($scope,$timeout){
         my_media.getCurrentPosition(
             // success callback
             function (position) {
-                if (position > -1) {
+                if (position > -1 && position != -0.001) {
                     if($scope.loading == true ){
                       endLoading();
                     }
