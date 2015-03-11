@@ -67,7 +67,7 @@ app.controller("Stream",function($scope,$timeout){
   }
 
   function playAudio(){
-    my_media = new Media("http://50.22.218.101:11232/;", onSuccess, onError);
+    my_media = new Media("http://s3.myradiostream.com:10288/;", onSuccess, onError);
     my_media.play();
     setVolume();
 
